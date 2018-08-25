@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- REMOVER,  Questão da forma de entrega -->
+    <meta name="author" content="Jonathan Francisco Ferreira">
+    <title>Autenticação</title>
+</head>
+
+<style>
+    /* Header */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        position: relative;
+        font-size: 10px;
+        font-family: sans-serif;
+        display: block;
+        min-height: 500px;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        direction: ltr;
+        font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
+        font-size: 13px;
+        color: #fff;
+        box-sizing: border-box;
+        display: block;
+        background-image: url("https://images.unsplash.com/photo-1422393462206-207b0fbd8d6b?ixlib=rb-0.3.5&s=b06c1fb67e23344ffc685dccbd6e78d8&auto=format&fit=crop&w=1050&q=80");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        background-size: cover;
+    }
+
+    /* Body */
+
+    .container {
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 180px;
+        display: table;
+        content: " ";
+        clear: both;
+        outline: 0
+    }
+
+    .login,
+    .visitante {
+        background: rgba(255, 255, 255, .8);
+        border: 1px solid #ddd;
+        min-height: 20px;
+        margin-bottom: 20px;
+        border-radius: 2px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+        margin: 0;
+        outline: 0;
+    }
+
+    .container header,
+    .visitante header {
+        padding: 15px;
+        margin: 0;
+        border-bottom-style: solid;
+        background: rgba(255, 255, 255, .1);
+        display: block;
+        border-bottom: 1px dashed rgba(0, 0, 0, .2);
+        font-size: 16px;
+        font-weight: 300;
+        color: #232323;
+    }
+
+    .container fieldset,
+    .visitante fieldset {
+        display: block;
+        padding: 10px;
+        border: none;
+        background: rgba(255, 255, 255, .5);
+    }
+
+    .container .label,
+    .visitante .label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        line-height: 20px;
+        font-weight: 400;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .form {
+        margin-top: -80px;
+    }
+
+    .label {
+        vertical-align: baseline;
+        border-radius: .25em;
+        max-width: 100%;
+    }
+
+    .input {
+        font-weight: 400;
+        position: relative;
+        padding-right: 37px;
+    }
+
+    .input input {
+        border-color: #BDBDBD;
+        box-sizing: border-box;
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        padding: 5px 10px;
+        outline: 0;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 0;
+        background-color: #fff;
+        font: 13px/16px 'Open Sans', Helvetica, Arial, sans-serif;
+        color: #404040;
+        -webkit-appearance: none;
+    }
+
+    .icon {
+        position: absolute;
+    }
+
+    .checkbox:last-child {
+        margin-bottom: 0;
+        padding-left: 25px;
+        line-height: 25px;
+        color: #404040;
+        cursor: pointer;
+        font-size: 13px;
+        position: relative;
+        display: block;
+        font-weight: 400;
+    }
+
+    .checkbox input[type=checkbox] {
+        position: absolute;
+        margin-left: -20px;
+    }
+
+    input[type=checkbox] {
+        margin-right: 4px 0 0;
+        line-height: normal;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container input:checked+i {
+        border-color: #3276B1;
+    }
+
+    .checkbox i {
+        position: absolute;
+        top: 3px;
+        left: 0;
+        display: block;
+        widows: 17px;
+        height: 17px;
+        outline: 0;
+        border-width: 1px;
+        border-style: solid;
+        background-attachment: #FFF;
+    }
+
+    .container .checkbox {
+        line-height: 25px;
+        color: #404040;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    /* Footer */
+
+    .container footer,
+    .visitante footer {
+        display: block;
+        height: 53px;
+        padding: 10px;
+        border-top: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    .container footer .btn {
+        float: right;
+        height: 31px;
+        padding: 0 22px;
+        font: 300 15px/29px 'Open Sans', Helvetica, Arial, sans-serif;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .container .btn,
+    .container .btn {
+        box-sizing: border-box;
+    }
+
+    .container .btn:hover {
+        font-weight: 600;
+    }
+
+    .btn {
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        background-image: none;
+        touch-action: manipulation;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        border-radius: 2px;
+        user-select: none;
+
+
+        border-color: #2c699d;
+    }
+
+    .btn-primary {
+        background-color: #3276b1;
+        color: #fff;
+    }
+
+    .btn-default {
+        background-color: none;
+        border: none;
+        color: #404040;
+    }
+
+
+    button {
+        align-items: flex-start;
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
+
+    .col-6 {
+        width: 50%;
+    }
+
+    .col-4 {
+        width: 25%;
+    }
+
+    .col-3 {
+        width: 33%;
+    }
+
+    .col {
+        float: left;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        box-sizing: border-box;
+    }
+
+    .container .col {
+        float: left;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        box-sizing: border-box;
+    }
+
+    fieldset section {
+        margin: 10px 0;
+        position: relative;
+    }
+
+    /** img */
+
+    .logo {
+        height: 100px;
+        margin-bottom: 24px;
+    }
+
+    .logo-img {
+        max-width: 256px;
+        max-height: 173px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border: 0;
+
+    }
+
+    img {
+        vertical-align: middle;
+
+    }
+
+    /***********************************/
+
+
+    /**/
+    .avisos-ic {
+        display: flex;
+        justify-content: center;
+    }
+
+    .avisos-ic a {
+        background-color: #B7DB3F;
+
+        /*para medias*/
+        width: 20%;
+        height: 250px;
+
+        position: relative;
+        margin: 20px 25px;
+        padding: 15px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0.16);
+        transition: background-color 1s ease;
+    }
+
+    .avisos-ic a:hover {
+        box-shadow: none;
+        background-color: #F2EC3A;
+        cursor: pointer;
+    }
+
+    .avisos-ic img {
+        background-color: #fff;
+        width: 150px;
+        padding: 4px 20px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+        text-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+        position: absolute;
+        top: 13px;
+        left: -17px;
+        z-index: 2;
+        transition: width 1s;
+    }
+
+    .avisos-ic a:hover img {
+        width: 160px;
+    }
+
+    .avisos-ic a p {
+        font-size: 11px;
+        color: #282E37;
+        text-align: justify;
+        padding: 10px;
+        text-transform: uppercase;
+        margin-top: 100px;
+    }
+
+    /**/
+    header.header-site-ufmt {
+        height: 80px;
+        position: fixed;
+        z-index: 10;
+        top: 0;
+        padding: 0;
+        background-color: #fff;
+        color: #232323;
+        width: 100%;
+        text-align: center;
+        font-size: 35px;
+        padding-top: 5px;
+    }
+
+    header.header-site-ufmt .breadcrumb {
+        display: block;
+        font-size: 20px;
+        background-color: rgba(248, 248, 248, .9);
+        border: 1px solid rgba(0, 0, 0, .2);
+    }
+
+    header.header-site-ufmt .breadcrumb a {
+        text-decoration: none;
+        color: #232323;
+        padding: 0 5%;
+        transition: background-color 1s ease;
+    }
+
+    header.header-site-ufmt .breadcrumb a:hover {
+        background-color: #53a7ea;
+        border-radius: 5px;
+    }
+
+    /*Notices heders    */
+    /**/
+
+    .title {
+        padding: 0 23px;
+    }
+
+    /**/
+    .mural-publico {
+        height: 300px;
+    }
+
+    .mural-publico a {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mural-publico a {
+        /*para media*/
+        width: 30%;
+        height: 103px;
+
+        background-color: #B7DB3F;
+        margin: 0 20px 55px;
+        align-items: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0.16);
+        transition: background-color 1s ease;
+        float: left;
+    }
+
+    .mural-publico a:hover {
+        box-shadow: none;
+        background-color: #F2EC3A;
+        cursor: pointer;
+    }
+
+    .mural-publico a img {
+        width: 159px;
+        color: #282E37;
+        text-align: justify;
+        padding: 10px;
+        text-transform: uppercase;
+    }
+
+    .mural-publico a p {
+        font-size: 11px;
+    }
+
+
+    /***/
+
+    /* definir as medias para o mural e avisos os heigh tbm pq se nao o rodape quebra e a cor dos avisos por causa do fundo*/
+
+    /* transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s, background-color 1s; */
+    /*Select every element*/
+
+    footer.page {
+        background-image: url("http://www1.ufmt.br/proplan/imagens/98d3391d379839514653fffeee40e27e.png"),
+        url("http://backgroundcheckall.com/wp-content/uploads/2017/12/seamless-repeating-background-gif-12.gif");
+
+        background-position: right bottom, left top;
+        background-repeat: no-repeat, repeat;
+        background-size: 50px, 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    footer.page span.title {
+        margin-top: 8px;
+    }
+
+    footer img#img-footer {
+        height: 35px;
+        right: 0;
+        position: absolute;
+    }
+
+
+    /*MÉDIA QUERIES
+    REMOVER,  Questão da forma de entrega
+    • Dispositivos com largura até 768px;
+    • Dispositivos com largura até 992px;
+    • Dispositivos com largura superior a 1200px.
+    */
+
+    /* • Dispositivos com largura superior a 1200px.  */
+    @media (min-width: 1200px) {}
+
+    @media screen and (min-width: 1200px) {
+        .container {
+            width: 1166px;
+        }
+    }
+
+    /* • Dispositivos com largura até 992px; */
+    @media (max-width: 992px) {}
+
+    /* • Dispositivos com largura até 768px; */
+    @media (max-width: 768px) {}
+
+    @media screen and (max-width: 768px) {
+        .container {
+            width: 90%;
+        }
+
+        .logo {
+            margin: 0;
+        }
+
+        .logo-img {
+            max-height: 100px !important;
+        }
+
+        .container footer .btn {
+            height: 27px;
+            padding: 0 10px;
+            font: 300 12px/21px;
+            font: 300 12px/21px 'Open Sans', Helvetica, Arial, sans-serif;
+        }
+    }
+
+    @media screen and (min-width: 800px) {
+        .container {
+            width: 600px;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .container {
+            width: 80%;
+        }
+
+        .logo-img {
+            max-height: 130px !important;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        /* ver aqui regras mobile*/
+        header.header-site-ufmt {
+            height: 50px;
+        }
+        header.header-site-ufmt {
+            font-size: 20px;
+        }
+
+        header.header-site-ufmt .breadcrumb {
+            font-size: 10px;
+        }
+
+        header.header-site-ufmt .breadcrumb a{
+            padding: 0 16px;
+        }
+
+        body div.container {
+            width: 90%;
+            margin-top: 50px;
+        }
+
+        .container fieldset {
+            padding: 5px !important;
+        }
+
+        .container footer {
+            height: 50px !important;
+        }
+
+        .form {
+            margin-top: 0;
+        }
+
+        .logo-img {
+            max-height: 130px !important;
+        }
+    }
+
+    /* 
+    
+    pendentes
+    ver o uso 
+        utilizando o sistema de grids, flex box 
+
+    Pelo menos dois text-shadow;
+    Pelo menos um gradiente;
+    Pelo menos uma transição;
+     Pelo menos três ícones utilizando fonte. Sugestão: https://material.io/icons/
+     */
+</style>
+
+<body>
+
+    <header class="header-site-ufmt">Instituto de computação - UFMT
+        <div class="breadcrumb">
+            <a href="#">Menu</a>
+            <a href="#">Notícias</a>
+            <a href="#">Calendário</a>
+            <a href="#">Legislação</a>
+            <a href="#">Acervo</a>
+        </div>
+    </header>
+
+
+    <form action="dados.html" id="form-login">
+
+        <div class="container">
+            <div class="form">
+                <div class="logo">
+                    <img class="logo-img" src="img/background.png" alt="">
+                </div>
+                <div class="login">
+
+                    <header>Check-in na rede do IC</header>
+                    <fieldset>
+                        <section>
+                            <label class="input">
+                                <input class="input" type="text" placeholder="Número do RGA ou CPF" />
+                            </label>
+                        </section>
+                        <section>
+                            <label class="input">
+                                <input type="password" placeholder="Senha" />
+                            </label>
+                        </section>
+                        <section>
+                            <label class="checkbox">
+                                <input type="checkbox" name="lembrar" checked> Lembrar
+                            </label>
+                        </section>
+                    </fieldset>
+
+                    <footer>
+
+                        <button class="btn btn-primary ">Entrar</button>
+                        <button class="btn btn-default ">Visitante</button>
+
+                    </footer>
+                </div>
+
+                <div class="visitante" hidden>
+
+                    <header>Visitante</header>
+                    <fieldset>
+                        <section class="col-12">
+                            <label class="label">Nome completo</label>
+                            <label class="input">
+                                <input class="input" type="text" />
+                            </label>
+                        </section>
+
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="label">CPF</label>
+                                <label class="input">
+                                    <input class="input" type="text" />
+                                </label>
+                            </section>
+
+                            <section class="col col-6">
+                                <label class="label">Data de nascimento</label>
+                                <label class="input">
+                                    <input class="input" type="date" />
+                                </label>
+                            </section>
+                        </div>
+
+                    </fieldset>
+
+                    <footer>
+                        <a href="#">UFMT</a>
+                        <button type="submit" class="btn btn-primary right">Entrar</button>
+                        <a href="#" class="btn btn-default left visitante">Voltar</a>
+                    </footer>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+    <section class="title">
+        <h2>Avisos IC</h2>
+    </section>
+
+    <section class="avisos-ic">
+        <a>
+            <img src="https://picsum.photos/300/204/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.Mussum
+                Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. </p>
+        </a>
+
+        <a>
+            <img src="https://picsum.photos/300/203/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+
+        <a>
+            <img src="https://picsum.photos/300/201/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat.</p>
+        </a>
+
+        <a>
+            <img src="https://picsum.photos/300/205/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+    </section>
+
+    <section class="title">
+        <h3>Mural Público</h3>
+    </section>
+
+    <section class="mural-publico">
+
+        <a>
+            <img src="https://picsum.photos/300/208/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+
+        <a>
+            <img src="https://picsum.photos/300/209/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+
+        <a>
+            <img src="https://picsum.photos/300/210/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+
+        <a>
+            <img src="https://picsum.photos/300/211/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+        <a>
+            <img src="https://picsum.photos/300/212/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+        <a>
+            <img src="https://picsum.photos/300/215/?random" alt="Legend Picsum">
+            <p>Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur.</p>
+        </a>
+    </section>
+
+
+    <footer class="page">
+        <span class="title">
+            Made by J0nh [STR1K3] © 2018
+        </span>
+    </footer>
+
+</body>
+
+</html>
