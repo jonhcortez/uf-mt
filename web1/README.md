@@ -14,3 +14,6 @@ $ npm install --save-dev babel-core babel-loader babel-preset-react
 
 //servidor
 https://github.com/reactjs/react-tutorial/#to-use
+
+//apresentação
+https://docs.google.com/presentation/d/1jZgmj4rrmLq2TZQyWuMcMVdTkpKHSRTFHYGopPni4dc/edit?usp=sharing
