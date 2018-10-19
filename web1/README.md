@@ -1,8 +1,6 @@
 
 
-Material utilizado
-
-https://tableless.com.br/hello-world-com-react-do-rascunho-ate-o-primeiro-componente/
+REACT
 
 $ npm install --save react react-dom
 
